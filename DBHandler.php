@@ -24,8 +24,20 @@ class DBHandler
 	
 	public function __construct(Array $config = array())
 	{
+		$file = 'config.php';
+		
+		if ( file_exists($file) )
+		{
+			$file_config = include($file);
+		}
+		
 		foreach ( $this->_config as $key => $value )
 		{
+			if ( array_key_exists($key, $file_config) )
+			{
+				$this->_config[$key] = $file_config[$key];
+			}
+			
 			if ( array_key_exists($key, $config) )
 			{
 				$this->_config[$key] = $config[$key];
