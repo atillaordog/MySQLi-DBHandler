@@ -311,7 +311,7 @@ class DBHandler
 			}
 			else
 			{
-				$value = is_numeric($value)? $this->_filter_var($value, self::INPUT_NUMERIC) : $this->_filter_var($value, self::INPUT_STRING);
+				$value = is_numeric($value)? $this->_filter_var($value, self::INPUT_NUMERIC) : '"'.$this->_filter_var($value, self::INPUT_STRING).'"';
 			}
 			
 			$sql = str_replace(':'.$key, $value, $sql);
