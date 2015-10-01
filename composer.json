@@ -1,0 +1,15 @@
+{
+	"name" : "DBHandler/DBHandler",
+	"version" : "0.1",
+	"authors": [
+		{
+			"name": "Atilla Ördög",
+			"email": "attila.ordog@yahoo.com",
+			"homepage": "http://www.gadratilprogramming.net",
+			"role": "Developer"
+		}
+	],
+	"autoload": {
+		"files": ["DBHandler.php"]
+	}
+}
