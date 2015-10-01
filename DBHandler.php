@@ -24,8 +24,9 @@ class DBHandler
 	
 	public function __construct(Array $config = array())
 	{
-		$file = 'config.php';
+		$file = dirname(__FILE__).'/config.php';
 		
+		$file_config = array();
 		if ( file_exists($file) )
 		{
 			$file_config = include($file);
