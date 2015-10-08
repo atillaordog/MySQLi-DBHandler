@@ -266,7 +266,7 @@ class DBHandler
 						$in = '("'.implode('", "', $this->_filter_var($value, self::INPUT_STRING)).'")';
 					}
 					
-					$where .= ' AND `'.$key.'` IN '.$in.',';
+					$sql .= ' AND `'.$key.'` IN '.$in.',';
 				}
 			}
 		}
@@ -399,7 +399,7 @@ class DBHandler
 		{
 			foreach( $var as $key => $value )
 			{
-				$var[$key] = $this->_filter_var($var, $type);
+				$var[$key] = $this->_filter_var($value, $type);
 			}
 			
 			return $var;
