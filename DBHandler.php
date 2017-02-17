@@ -19,7 +19,8 @@ class DBHandler
 		'server' => '',
 		'user' => '',
 		'pass' => '',
-		'database' => ''
+		'database' => '',
+		'charset' => 'utf8'
 	);
 	
 	public function __construct(Array $config = array())
@@ -59,6 +60,8 @@ class DBHandler
 		{
 			$this->_db = @new mysqli($this->_config['server'], $this->_config['user'], $this->_config['pass'], $this->_config['database']);
 		}
+		
+		$this->_db->set_charset($this->_config['charset']);
 		
 		if ($this->_db->connect_errno) {
 			throw new Exception("Failed to connect to MySQL: (" . $this->_db->connect_errno . ") " . $this->_db->connect_error);
