@@ -123,7 +123,7 @@ class DBHandler
 		
 		$this->_sql = 'SELECT COUNT(`'.$total_field.'`) AS total FROM `'.$table_name.'` WHERE 1 = 1 '.$extra_sql;
 		
-		$res = $this->_db->query($sql)->fetch_object()->total;
+		$res = $this->_db->query($this->_sql)->fetch_object()->total;
 		
 		return (int)$res;
 	}
