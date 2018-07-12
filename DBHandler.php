@@ -147,7 +147,7 @@ class DBHandler
 		
 		foreach( $data as $key => $value )
 		{
-			if ( is_numeric($value) )
+			if ( $this->_is_numeric($value) )
 			{
 				$sql .= $this->_filter_var($value, self::INPUT_NUMERIC).',';
 			}
@@ -195,18 +195,18 @@ class DBHandler
 		{
 			if ( in_array($key, $fields) )
 			{
-				$sql .= '`'.$key.'` = '.((is_numeric($value))? $this->_filter_var($value, self::INPUT_NUMERIC) : '"'.$this->_filter_var($value, self::INPUT_STRING).'"').',';
+				$sql .= '`'.$key.'` = '.(($this->_is_numeric($value))? $this->_filter_var($value, self::INPUT_NUMERIC) : '"'.$this->_filter_var($value, self::INPUT_STRING).'"').',';
 			}
 			
 			if ( in_array($key, $by_fields) )
 			{
 				if ( !is_array($value) )
 				{
-					$where .= ' AND `'.$key.'` = '.((is_numeric($value))? $this->_filter_var($value, self::INPUT_NUMERIC) : '"'.$this->_filter_var($value, self::INPUT_STRING).'"').',';
+					$where .= ' AND `'.$key.'` = '.(($this->_is_numeric($value))? $this->_filter_var($value, self::INPUT_NUMERIC) : '"'.$this->_filter_var($value, self::INPUT_STRING).'"').',';
 				}
 				else
 				{
-					$are_numbers = array_filter($value, 'is_numeric');
+					$are_numbers = array_filter($value, '$this->_is_numeric');
 					if ( count($are_numbers) == count($value) )
 					{
 						$in = '('.implode(',', $this->_filter_var($value, self::INPUT_NUMERIC)).')';
@@ -255,11 +255,11 @@ class DBHandler
 			{
 				if ( !is_array($value) )
 				{
-					$sql .= ' AND `'.$key.'` = '.((is_numeric($value))? $this->_filter_var($value, self::INPUT_NUMERIC) : '"'.$this->_filter_var($value, self::INPUT_STRING).'"').',';
+					$sql .= ' AND `'.$key.'` = '.(($this->_is_numeric($value))? $this->_filter_var($value, self::INPUT_NUMERIC) : '"'.$this->_filter_var($value, self::INPUT_STRING).'"').',';
 				}
 				else
 				{
-					$are_numbers = array_filter($value, 'is_numeric');
+					$are_numbers = array_filter($value, '$this->_is_numeric');
 					if ( count($are_numbers) == count($value) )
 					{
 						$in = '('.implode(',', $this->_filter_var($value, self::INPUT_NUMERIC)).')';
@@ -298,11 +298,11 @@ class DBHandler
 	{
 		foreach ( $data as $key => $value )
 		{
-			$key = is_numeric($key)? $this->_filter_var($key, self::INPUT_NUMERIC) : $this->_filter_var($key, self::INPUT_STRING);
+			$key = $this->_is_numeric($key)? $this->_filter_var($key, self::INPUT_NUMERIC) : $this->_filter_var($key, self::INPUT_STRING);
 			
 			if ( is_array($value) )
 			{
-				$are_numbers = array_filter($value, 'is_numeric');
+				$are_numbers = array_filter($value, '$this->_is_numeric');
 				if ( count($are_numbers) == count($value) )
 				{
 					$value = '('.implode(',', $this->_filter_var($value, self::INPUT_NUMERIC)).')';
@@ -314,7 +314,7 @@ class DBHandler
 			}
 			else
 			{
-				$value = is_numeric($value)? $this->_filter_var($value, self::INPUT_NUMERIC) : '"'.$this->_filter_var($value, self::INPUT_STRING).'"';
+				$value = $this->_is_numeric($value)? $this->_filter_var($value, self::INPUT_NUMERIC) : '"'.$this->_filter_var($value, self::INPUT_STRING).'"';
 			}
 			
 			$sql = str_replace(':'.$key, $value, $sql);
@@ -422,5 +422,22 @@ class DBHandler
 		}
 		return null;
 	}
-	
+    
+    /**
+     * Checks if the value is numeric, and also returns false if value is numeric, but starts with 0
+     *
+     * @param [type] $value
+     * @return boolean
+     */
+    private function _is_numeric($value){
+        if ( is_numeric($value) ){
+            if ( substr(''.$value, 0, 1) == '0' ){
+                return false;
+            }
+
+            return true;
+        }
+
+        return false;
+    }
 }
