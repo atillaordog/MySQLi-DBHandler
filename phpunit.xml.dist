@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="vendor/phpunit/phpunit/phpunit.xsd"
+         bootstrap="vendor/autoload.php"
+         colors="true"
+         cacheDirectory=".phpunit.cache"
+         failOnRisky="true"
+         failOnWarning="true"
+         beStrictAboutOutputDuringTests="true">
+    <testsuites>
+        <testsuite name="unit">
+            <file>tests/SqlTest.php</file>
+            <file>tests/AliasTest.php</file>
+        </testsuite>
+        <testsuite name="integration">
+            <file>tests/DBHandlerTest.php</file>
+        </testsuite>
+    </testsuites>
+    <php>
+        <!--
+            The integration tests need an empty database they can create and drop a table in.
+            They are skipped when the connection fails. Override these with environment variables,
+            or copy this file to phpunit.xml (ignored by git) and change them there.
+        -->
+        <env name="DBHANDLER_TEST_HOST" value="127.0.0.1"/>
+        <env name="DBHANDLER_TEST_USER" value="root"/>
+        <env name="DBHANDLER_TEST_PASS" value=""/>
+        <env name="DBHANDLER_TEST_DATABASE" value="dbhandler_test"/>
+    </php>
+    <source>
+        <include>
+            <directory>src</directory>
+        </include>
+    </source>
+</phpunit>
